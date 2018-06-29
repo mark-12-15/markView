@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<BR>
+    <N0Find time="2:00" task="关机" cTime="2016/6/29" creator="Admin" repeat="周四、周三、周五、周六、周二、周一"/>
+    <N1Find time="0:00" task="轮巡" cTime="2016/6/29" creator="Admin" repeat="周三、周四"/>
+</BR>

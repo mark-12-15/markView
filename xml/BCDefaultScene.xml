@@ -1,0 +1,8 @@
+<BR>
+    <ROOM roomid="组ID" deviceip="设备IP">
+        <WINDOW segmentation="实际分割数" chid="通道ID" left="" loopip="轮巡使用的IP列表" width="" top="" ip="36个IP列表，分号分割" winid="窗口ID" height=""/>
+    </ROOM>
+    <ROOM roomid="0" deviceip="192.168.1.6">
+        <WINDOW segmentation="1" chid="9" left="0" loopip="" width="1920" top="0" ip="rtsp://beilu1..;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" interval="3" winid="0" height="1080"/>
+    </ROOM>
+</BR>

@@ -1,0 +1,87 @@
+#ifndef BCSettingCommunicationDlg_H
+#define BCSettingCommunicationDlg_H
+
+#include <QDialog>
+#include <QUdpSocket>
+
+// 搜索设备的UDP
+class BSDevice;
+class BCSettingCommunicationDlg;
+class BCSettingCommunicationUdp : public QObject
+{
+    Q_OBJECT
+public:
+    BCSettingCommunicationUdp(BCSettingCommunicationDlg *pDlg);
+    ~BCSettingCommunicationUdp();
+
+    void ModifyDeviceConfig(BSDevice *pDevice, int type);
+
+    QStringList m_lstMac;   // 记录发送信号的Mac地址，保证同一台设备只进入一次
+    QTimer      *m_pTimer;              // 广播的定时器
+
+signals:
+    void sigDevice(const QString &name, const QString &ip, int port, const QString &mask, const QString &gateway, const QString &mac);
+    void sigPreviewIP(const QString &ip, int port);
+
+private slots:
+    void processPendingDatagrams();
+    void onSearchDevice();
+
+    void onSearchPreviewDevice();
+    void onRecvPreviewUdpData();
+
+private:
+    void GetDeviceConfig(int m1=0xff, int m2=0xff, int m3=0xff, int m4=0xff, int m5=0xff, int m6=0xff);
+
+    BCSettingCommunicationDlg *m_pDlg;
+    QUdpSocket  *m_pUdpSocket;          // 广播的通讯UDP
+    QUdpSocket  *m_pPreviewUdpSocket;   // 广播的预监UDP
+    QList<unsigned int> m_lstIP;        // 固定4个，如192 168 0 1
+};
+
+namespace Ui {
+class BCSettingCommunicationDlg;
+}
+
+class QComboBox;
+class BCSettingCommunicationDlg : public QDialog
+{
+    Q_OBJECT
+
+public:
+    explicit BCSettingCommunicationDlg(QWidget *parent = 0);
+    ~BCSettingCommunicationDlg();
+
+    int GetDeviceType();
+
+private slots:
+    void onCurrentRowChanged(int, int, int, int);
+
+    void on_m_pUseNetConnectRadioBtn_clicked();
+    void on_m_pUseComConnectRadioBtn_clicked();
+    void on_m_pMoreSetBtn_clicked();
+    void on_m_pSearchDeviceBtn_clicked();
+
+    void on_m_pDemoModeBtn_clicked();
+    void on_m_pOkBtn_clicked();
+    void on_m_pCancelBtn_clicked();
+
+    void on_m_pModifyDeviceConfigBtn_clicked();
+
+    void onAddDevice(const QString &name, const QString &ip, int port, const QString &mask, const QString &gateway, const QString &mac);
+    void onAddPrevewDevice(const QString &ip, int port);
+
+    void on_m_pDeviceType_currentIndexChanged(int index);
+
+private:
+    Ui::BCSettingCommunicationDlg *ui;
+    void init();
+
+    QString getcomm(int index, QString keyorvalue); // http://blog.csdn.net/emdfans/article/details/38588537
+
+    BCSettingCommunicationUdp   *m_pSearchDeviceUdp;    // 查找设备的UDP
+    QMap<QString, QString> mapIPMac;        // ip和mac的对应关系表
+    QMap<QString, int> mapPreviewIPPort;    // 预监的ip和port对应表
+};
+
+#endif // BCSettingCommunicationDlg_H

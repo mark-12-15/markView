@@ -1,0 +1,68 @@
+<BR>
+    <Room jointWithVP4000="0" IsConnectByNet="0" IP="192.168.1.3" CurrentBaudRate="9600" CurrentStreamCtrl="None" ID="1" switchFlag="AA BB 03 01 %1 EE" CurrentDataBit="8" loadFlag="%1." CurrentCom="COM10" OffCmd="" JointSceneRoomID="-1" Port="8001" OnCmd="" CurrentStopBit="1" cmdType="0" IsOn="0" Name="Matrix" CurrentCheckBit="None" saveFlag="%1,">
+        <Input>
+            <Node Name="输入0" ID="0" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入1" ID="1" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入2" ID="2" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入3" ID="3" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入4" ID="4" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入5" ID="5" cutt="0" cutb="0" cutr="0" cutl="0"/>
+        </Input>
+        <Output>
+            <Node IsOn="0" OffCmd="" Name="输出0" ID="0" SwitchID="1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="1"/>
+            <Node IsOn="0" OffCmd="" Name="输出1" ID="1" SwitchID="0" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="1"/>
+            <Node IsOn="0" OffCmd="" Name="输出2" ID="2" SwitchID="1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="1"/>
+            <Node IsOn="0" OffCmd="" Name="输出3" ID="3" SwitchID="1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="1"/>
+            <Node IsOn="0" OffCmd="" Name="输出4" ID="4" SwitchID="1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="1"/>
+            <Node IsOn="0" OffCmd="" Name="输出5" ID="5" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+        </Output>
+        <SceneList/>
+    </Room>
+    <Room jointWithVP4000="0" IsConnectByNet="1" IP="192.168.1.3" CurrentBaudRate="115200" CurrentStreamCtrl="None" ID="2" switchFlag="%1b%2." CurrentDataBit="8" loadFlag="%1." CurrentCom="COM1" OffCmd="" JointSceneRoomID="-1" Port="8001" OnCmd="" CurrentStopBit="1" cmdType="1" IsOn="0" Name="Matrix" CurrentCheckBit="None" saveFlag="%1,">
+        <Input>
+            <Node Name="输入0" ID="0" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入1" ID="1" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入2" ID="2" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入3" ID="3" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入4" ID="4" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入5" ID="5" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入6" ID="6" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入7" ID="7" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入8" ID="8" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入9" ID="9" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入10" ID="10" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入11" ID="11" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入12" ID="12" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入13" ID="13" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入14" ID="14" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入15" ID="15" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入16" ID="16" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入17" ID="17" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入18" ID="18" cutt="0" cutb="0" cutr="0" cutl="0"/>
+            <Node Name="输入19" ID="19" cutt="0" cutb="0" cutr="0" cutl="0"/>
+        </Input>
+        <Output>
+            <Node IsOn="0" OffCmd="" Name="输出0" ID="0" SwitchID="1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="1"/>
+            <Node IsOn="0" OffCmd="" Name="输出1" ID="1" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+            <Node IsOn="0" OffCmd="" Name="输出2" ID="2" SwitchID="3" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="1"/>
+            <Node IsOn="0" OffCmd="" Name="输出3" ID="3" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+            <Node IsOn="0" OffCmd="" Name="输出4" ID="4" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+            <Node IsOn="0" OffCmd="" Name="输出5" ID="5" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+            <Node IsOn="0" OffCmd="" Name="输出6" ID="6" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+            <Node IsOn="0" OffCmd="" Name="输出7" ID="7" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+            <Node IsOn="0" OffCmd="" Name="输出8" ID="8" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+            <Node IsOn="0" OffCmd="" Name="输出9" ID="9" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+            <Node IsOn="0" OffCmd="" Name="输出10" ID="10" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+            <Node IsOn="0" OffCmd="" Name="输出11" ID="11" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+            <Node IsOn="0" OffCmd="" Name="输出12" ID="12" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+            <Node IsOn="0" OffCmd="" Name="输出13" ID="13" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+            <Node IsOn="0" OffCmd="" Name="输出14" ID="14" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+            <Node IsOn="0" OffCmd="" Name="输出15" ID="15" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+            <Node IsOn="0" OffCmd="" Name="输出16" ID="16" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+            <Node IsOn="0" OffCmd="" Name="输出17" ID="17" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+            <Node IsOn="0" OffCmd="" Name="输出18" ID="18" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+            <Node IsOn="0" OffCmd="" Name="输出19" ID="19" SwitchID="-1" OnCmd="" jointWithVP4000ChannelID="-1" jointWithVP2000ChannelType="-1" IsSwitch="0"/>
+        </Output>
+        <SceneList/>
+    </Room>
+</BR>

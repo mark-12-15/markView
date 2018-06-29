@@ -1,0 +1,38 @@
+<Node resolution="1920*1080" ip="Default" decoder="H264" level="-1" name="root">
+    <Node resolution="" ip="" decoder="" level="0" name="聂各庄">
+        <Node resolution="" ip="" decoder="" level="1" name="东路"/>
+        <Node resolution="" ip="" decoder="" level="1" name="西路"/>
+        <Node resolution="" ip="" decoder="" level="1" name="南路">
+            <Node resolution="1920*1080" ip="rtsp://nanlu1.." decoder="H264" level="2" name="聂各庄南路1"/>
+            <Node resolution="1920*1080" ip="rtsp://nanlu2.." decoder="H264" level="2" name="聂各庄南路2"/>
+            <Node resolution="1920*1080" ip="rtsp://nanlu3.." decoder="H264" level="2" name="聂各庄南路3"/>
+            <Node resolution="1920*1080" ip="rtsp://nanlu4.." decoder="H264" level="2" name="聂各庄南路4"/>
+            <Node resolution="1920*1080" ip="rtsp://nanlu5.." decoder="H264" level="2" name="聂各庄南路5"/>
+        </Node>
+        <Node resolution="" ip="" decoder="" level="1" name="北路">
+            <Node resolution="1920*1080" ip="rtsp://beilu1.." decoder="H264" level="2" name="聂各庄北路1"/>
+            <Node resolution="1920*1080" ip="rtsp://beilu2.." decoder="H264" level="2" name="聂各庄北路2"/>
+            <Node resolution="1920*1080" ip="rtsp://beilu3.." decoder="H264" level="2" name="聂各庄北路3"/>
+            <Node resolution="1920*1080" ip="rtsp://beilu4.." decoder="H265" level="2" name="聂各庄北路4"/>
+            <Node resolution="1920*1080" ip="rtsp://beilu5.." decoder="H264" level="2" name="聂各庄北路5"/>
+            <Node resolution="" ip="" decoder="" level="2" name="北路路口">
+                <Node resolution="1920*1080" ip="rtsp://beilulukou1.." decoder="H264" level="3" name="聂各庄北路路口1"/>
+                <Node resolution="1920*1080" ip="rtsp://beilulukou2.." decoder="H264" level="3" name="聂各庄北路路口2"/>
+                <Node resolution="1920*1080" ip="rtsp://beilulukou3.." decoder="H264" level="3" name="聂各庄北路路口3"/>
+            </Node>
+        </Node>
+    </Node>
+    <Node resolution="" ip="" decoder="" level="0" name="大红门">
+        <Node resolution="1920*1080" ip="rtsp://dahongmen1.." decoder="H264" level="1" name="大红门1"/>
+        <Node resolution="1920*1080" ip="rtsp://dahongmen2.." decoder="H264" level="1" name="大红门2"/>
+        <Node resolution="1920*1080" ip="rtsp://dahongmen3.." decoder="H264" level="1" name="大红门3"/>
+        <Node resolution="1920*1080" ip="rtsp://dahongmen4.." decoder="H264" level="1" name="大红门4"/>
+        <Node resolution="1920*1080" ip="rtsp://dahongmen5.." decoder="H264" level="1" name="大红门5"/>
+        <Node resolution="1920*1080" ip="rtsp://dahongmen6.." decoder="H264" level="1" name="大红门6"/>
+    </Node>
+    <Node resolution="1920*1080" ip="rtsp://root1.." decoder="H264" level="0" name="成寿寺"/>
+    <Node resolution="1920*1080" ip="rtsp://root2.." decoder="H264" level="0" name="宋家庄"/>
+    <Node resolution="1920*1080" ip="rtsp://root3.." decoder="H264" level="0" name="西红门"/>
+    <Node resolution="1920*1080" ip="rtsp://root4.." decoder="H264" level="0" name="角门西"/>
+    <Node resolution="1920*1080" ip="rtsp://root5.." decoder="H264" level="0" name="角门东"/>
+</Node>

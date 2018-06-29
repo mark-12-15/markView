@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<BR>
+    <E1 bTime="08:26" Event="开窗" User="Admin" eTime="18:56"/>
+    <E2 bTime="11:06" Event="预监" User="User2" eTime="14:18"/>
+    <E3 bTime="18:30" Event="轮巡" User="User2" eTime="20:30"/>
+    <E4 bTime="05:00" Event="开窗" User="User1" eTime="12:00"/>
+    <E5 bTime="16:26" Event="开窗" User="Admin" eTime="23:00"/>
+</BR>

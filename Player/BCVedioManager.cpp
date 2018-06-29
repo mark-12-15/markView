@@ -1,0 +1,561 @@
+﻿#include "BCVedioManager.h"
+#include <QPainter>
+#include <QNetworkInterface>
+#include <QDebug>
+#include "../Common/BCCommon.h"
+#include "BCVedioDecodeThread.h"
+#include "BCVedioPlayerThread.h"
+
+BCVedioWindow::BCVedioWindow(HWND wid, int chid, QRect rect)
+{
+    m_wid = wid;
+    m_chid = chid;
+    m_rect = rect;
+
+    pScreen = SDL_CreateWindowFrom( m_wid );
+    pRenderer = SDL_CreateRenderer(pScreen, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
+    //pRenderer = SDL_CreateRenderer(pScreen, -1, SDL_RENDERER_SOFTWARE);
+    pTexture = SDL_CreateTexture(pRenderer, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_STREAMING | SDL_TEXTUREACCESS_TARGET, m_rect.width(), m_rect.height());
+    pYUVTexture = SDL_CreateTexture(pRenderer, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STREAMING | SDL_TEXTUREACCESS_TARGET, m_rect.width(), m_rect.height());
+}
+
+BCVedioWindow::~BCVedioWindow()
+{
+    SDL_Delay(50);
+    SDL_DestroyTexture(pTexture);
+    SDL_DestroyRenderer(pRenderer);
+    SDL_DestroyWindow(pScreen);
+
+    pTexture = NULL;
+    pRenderer = NULL;
+    pScreen = NULL;
+
+    // 必须添加，否则再次开启时不显示
+    ShowWindow(m_wid, SW_SHOWNA);
+    UpdateWindow(m_wid);
+}
+// -----------------------------------------------------------------------------------------------------------------------------
+#define DIFRENTIPFORPREVIEW   // 跨网段预监回显
+#include "../Common/BCCommunication.h"
+BCVedioManager::BCVedioManager()
+    :QObject(0)
+{
+    if ( BCCommon::g_bConnectWithServer ) {
+        m_ip = BCCommunication::Application()->m_ip;
+    } else {
+        m_ip = BCCommon::g_qsPreviewIP;
+    }
+#ifdef DIFRENTIPFORPREVIEW
+    m_port = 8206;
+#else
+    m_port = BCCommon::g_nPreviewPort;
+#endif
+    m_nHeartTimes = 0;
+    m_nDelayPlayTimes = 0;
+    BCCommon::g_nPreviewTick = (1234 == BCCommon::g_nPreviewTick) ? GetTickCount() : BCCommon::g_nPreviewTick;
+
+    // get ip
+    QString qsCurrentIP;
+    QList<QNetworkInterface> network = QNetworkInterface::allInterfaces();
+    foreach (QNetworkInterface net, network) {
+        // 双网卡判断不出来时使用
+        QString netName = net.humanReadableName();
+        if ( !BCCommon::g_qsConnectName.isEmpty() ) {
+            if (!netName.contains(BCCommon::g_qsConnectName))
+                continue;
+        }
+        // 不要回环(127.0.0.1)，要已经分配资源并且在用的网卡
+        if (!(net.flags() & QNetworkInterface::IsLoopBack) && (net.flags() & QNetworkInterface::IsUp) && (net.flags() & QNetworkInterface::IsRunning)) {
+            QList<QNetworkAddressEntry> allIP = net.addressEntries();
+            foreach(QNetworkAddressEntry ip, allIP) {
+                if (ip.ip().protocol() == QAbstractSocket::IPv4Protocol) {
+                    qsCurrentIP = ip.ip().toString();
+                }
+            }
+        }
+    }
+
+    if (qsCurrentIP.isEmpty())
+        qsCurrentIP = QHostAddress(QHostAddress::LocalHost).toString();
+
+    QStringList lstIP = qsCurrentIP.split(".");
+    for (int i = 0; i < lstIP.count(); i++) {
+        m_lstIP.append( lstIP.at(i).toUInt() );
+    }
+
+    qDebug() << qsCurrentIP << " videoMgr get ip." << m_ip;
+
+    // thread
+    m_bStartThread = false;
+    m_pDecodeThread1 = new BCVeioDecodeThread(m_ip, m_port, 0, this);
+    m_pDecodeThread2 = new BCVeioDecodeThread(m_ip, m_port, 1, this);
+    m_pDecodeThread3 = new BCVeioDecodeThread(m_ip, m_port, 2, this);
+    m_pDecodeThread4 = new BCVeioDecodeThread(m_ip, m_port, 3, this);
+    m_pPlayerThread = NULL;
+
+    for(int i=0;i<1024;i++) {
+        tmp_bak_pos_tab[i][0] = 0;
+        tmp_bak_pos_tab[i][1] = 0;
+    }
+
+    // init SDL
+    SDL_SetMainReady();
+    qDebug() << "SDL_Init: " << SDL_Init( SDL_INIT_VIDEO|SDL_INIT_TIMER );
+
+    SDL_EventState(SDL_WINDOWEVENT, SDL_IGNORE);
+    SDL_EventState(SDL_SYSWMEVENT, SDL_IGNORE);
+    SDL_EventState(SDL_USEREVENT, SDL_IGNORE);
+
+    m_pPreviewUdpSocket = new QUdpSocket(this);
+    connect(m_pPreviewUdpSocket, SIGNAL(readyRead()), this, SLOT(onRecvPreviewUdpData()));
+
+    // timer 1s reconnect, if try 5 times and err, quit thread
+    m_pOneSecondTimer = new QTimer();
+    m_pOneSecondTimer->setInterval( 100 );
+    connect(m_pOneSecondTimer, SIGNAL(timeout()), this, SLOT(onTimeout()));
+    //m_pOneSecondTimer->start();
+
+#ifdef DIFRENTIPFORPREVIEW  // 直连不检查是否断开
+        m_pDecodeThread1->ConnectSocket();
+        m_pDecodeThread2->ConnectSocket();
+        m_pDecodeThread3->ConnectSocket();
+        m_pDecodeThread4->ConnectSocket();
+        StartPlayerThread();
+#else   // 正常局域网内
+        m_pOneSecondTimer->start();
+#endif
+}
+
+BCVedioManager::~BCVedioManager()
+{
+    m_pOneSecondTimer->stop();
+    m_pPreviewUdpSocket->deleteLater();
+
+    // 清空窗口，这里只为以防万一
+    QMutexLocker locker(&m_mutexWindow);
+    while ( !m_lstWindow.isEmpty() )
+        delete m_lstWindow.takeFirst();
+
+    // 停止线程
+    StopPlayerThread();
+
+    m_mutexFrame.lock();
+    m_lstFrameOfDecodeThread1.clear();
+    m_lstFrameOfDecodeThread2.clear();
+    m_lstFrameOfDecodeThread3.clear();
+    m_lstFrameOfDecodeThread4.clear();
+    m_mutexFrame.unlock();
+
+    // SDL
+    SDL_Quit();
+}
+
+BCVedioManager *BCVedioManager::m_pApplication = NULL;
+
+BCVedioManager *BCVedioManager::Application()
+{
+    if (NULL == m_pApplication) {
+        m_pApplication = new BCVedioManager();
+    }
+
+    return m_pApplication;
+}
+
+void BCVedioManager::Destroy()
+{
+    if (NULL != m_pApplication) {
+        delete m_pApplication;
+        m_pApplication = NULL;
+    }
+}
+
+void BCVedioManager::AddEcho(HWND wid, int chid, int /*x*/, int /*y*/, int w, int h)
+{
+    if ( !BCCommon::g_bEchoModel )
+        return;
+
+    QMutexLocker locker(&m_mutexWindow);
+    //m_mutexWindow.lock();
+    QListIterator<BCVedioWindow *> it( m_lstWindow );
+    while ( it.hasNext() ) {
+        BCVedioWindow *pWindow = it.next();
+
+        // 如果已经添加过了直接返回
+        if (pWindow->m_wid == wid) {
+            //m_mutexWindow.unlock();
+            return;
+        }
+    }
+
+    // 新建窗口类添加到链表
+    m_lstWindow.append( new BCVedioWindow(wid, chid, QRect(0, 0, w, h)) );
+    //m_mutexWindow.unlock();
+}
+
+void BCVedioManager::UpdateEcho(HWND wid, int x, int y, int w, int h)
+{
+    if ( !BCCommon::g_bEchoModel )
+        return;
+
+    // 查找窗口并跳出循环
+    QMutexLocker locker(&m_mutexWindow);
+    //m_mutexWindow.lock();
+    QListIterator<BCVedioWindow *> it( m_lstWindow );
+    while ( it.hasNext() ) {
+        BCVedioWindow *pWindow = it.next();
+
+        // 如果已经添加过了直接返回
+        if (pWindow->m_wid != wid)
+            continue;
+
+        // 如果相等则不做处理
+        if (pWindow->m_rect == QRect(x, y, w, h))
+            break;
+
+        pWindow->m_rect = QRect(x, y, w, h);
+
+        SDL_DestroyTexture(pWindow->pTexture);
+        SDL_DestroyRenderer(pWindow->pRenderer);
+        pWindow->pRenderer = SDL_CreateRenderer(pWindow->pScreen, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
+        pWindow->pTexture = SDL_CreateTexture(pWindow->pRenderer, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_STREAMING | SDL_TEXTUREACCESS_TARGET, w, h);
+        pWindow->pYUVTexture = SDL_CreateTexture(pWindow->pRenderer, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STREAMING | SDL_TEXTUREACCESS_TARGET, w, h);
+
+        break;
+    }
+    //m_mutexWindow.unlock();
+}
+
+void BCVedioManager::RemoveEcho(HWND wid)
+{
+    if ( !BCCommon::g_bEchoModel )
+        return;
+
+    // 查找窗口并移除链表
+    QMutexLocker locker(&m_mutexWindow);
+    //m_mutexWindow.lock();
+    QListIterator<BCVedioWindow *> it( m_lstWindow );
+    while ( it.hasNext() ) {
+        BCVedioWindow *pWindow = it.next();
+
+        // 如果已经添加过了直接返回
+        if (pWindow->m_wid != wid)
+            continue;
+
+        m_lstWindow.removeOne( pWindow );
+
+        // 销毁对象
+        delete pWindow;
+        pWindow = NULL;
+
+        break;
+    }
+    //m_mutexWindow.unlock();
+}
+
+void BCVedioManager::SetPlayerConnectConfig(const QString &ip, int port)
+{
+    m_ip = ip;
+    m_port = port;
+}
+
+bool BCVedioManager::IsConnected()
+{
+    return (m_pDecodeThread1->IsConnected() && m_pDecodeThread1->IsConnected() && m_pDecodeThread1->IsConnected() && m_pDecodeThread1->IsConnected());
+}
+#include "../Common/BCLocalServer.h"
+void BCVedioManager::onTimeout()
+{
+    unsigned char ssmsg[16];
+
+    ssmsg[0] = 0xec;
+    ssmsg[1] = 0x98;
+    ssmsg[2] = 0x16;
+    ssmsg[3] = 0x10;
+    if (1 == BCCommon::g_nPreviewDirectDevice) {    // 搜索设备
+        ssmsg[4] = 0x01;
+    } else {                                        // 搜索Vedio Server
+        ssmsg[4] = 0x02;
+    }
+
+    if ( !m_lstIP.isEmpty() ) {
+        ssmsg[5] = m_lstIP.at(0);
+        ssmsg[6] = m_lstIP.at(1);
+        ssmsg[7] = m_lstIP.at(2);
+        ssmsg[8] = m_lstIP.at(3);
+    } else {
+        ssmsg[5] = 0;
+        ssmsg[6] = 0;
+        ssmsg[7] = 0;
+        ssmsg[8] = 0;
+    }
+    ssmsg[9] = BCCommon::g_nPreviewTick & 0x00ff;
+    ssmsg[10] = ((BCCommon::g_nPreviewTick>>8)&0x00ff);
+
+//    ssmsg[11] = 0;  // 顺序4个应该是tcp socket的状态值，暂时看有3种：0 0x1234 0x5678，但似乎都没生效
+//    ssmsg[12] = 0;
+//    ssmsg[13] = 0;
+//    ssmsg[14] = 0;
+    ssmsg[11] = (NULL == m_pDecodeThread1) ? 0x00 : m_pDecodeThread1->IsConnected() ? 0x34 : 0x00;  // 顺序4个应该是tcp socket的状态值，暂时看有3种：0 0x1234 0x5678，但似乎都没生效
+    ssmsg[12] = (NULL == m_pDecodeThread2) ? 0x00 : m_pDecodeThread2->IsConnected() ? 0x34 : 0x00;
+    ssmsg[13] = (NULL == m_pDecodeThread3) ? 0x00 : m_pDecodeThread3->IsConnected() ? 0x34 : 0x00;
+    ssmsg[14] = (NULL == m_pDecodeThread4) ? 0x00 : m_pDecodeThread4->IsConnected() ? 0x34 : 0x00;
+    ssmsg[15] = 0;
+//    ssmsg[14] = 0xea;
+//    ssmsg[15] = 0xa6;
+
+    // 固定广播端口
+    if (1 == BCCommon::g_nPreviewDirectDevice) {
+        m_pPreviewUdpSocket->writeDatagram((char*)ssmsg, 8, QHostAddress::Broadcast, 6061);   // 搜索设备
+    } else {
+        m_pPreviewUdpSocket->writeDatagram((char*)ssmsg, 16, QHostAddress::Broadcast, 6063); // 搜索Vedio Server
+    }
+
+    m_nHeartTimes++;
+
+    if (m_nHeartTimes > 30) {
+        m_nHeartTimes= 0;
+        m_nDelayPlayTimes = 0;
+
+//        if (NULL != m_pDecodeThread1) {
+//            m_pDecodeThread1->DisConnectSocket();
+//        }
+//        if (NULL != m_pDecodeThread2) {
+//            m_pDecodeThread2->DisConnectSocket();
+//        }
+//        if (NULL != m_pDecodeThread3) {
+//            m_pDecodeThread3->DisConnectSocket();
+//        }
+//        if (NULL != m_pDecodeThread4) {
+//            m_pDecodeThread4->DisConnectSocket();
+//        }
+    }
+}
+
+void BCVedioManager::onRecvPreviewUdpData()
+{
+    while(m_pPreviewUdpSocket->hasPendingDatagrams())
+    {
+        QByteArray datagram;
+        datagram.resize(m_pPreviewUdpSocket->pendingDatagramSize());
+
+        unsigned char tmpbuf[4096];
+        int bread = m_pPreviewUdpSocket->readDatagram((char *)tmpbuf, 256);
+
+        if((bread>0)&&(bread<1024))     // 搜索设备
+        {
+            unsigned char flagBuf[6];
+            if (1 == BCCommon::g_nPreviewDirectDevice) {    // 搜索设备
+                flagBuf[0] = 0xec;
+                flagBuf[1] = 0x98;
+                flagBuf[2] = 0x61;
+                flagBuf[3] = 0x20;
+                flagBuf[4] = 0x01;
+                flagBuf[5] = 0x10;
+            } else {                                        // 搜索Vedio Server
+                flagBuf[0] = 0xec;
+                flagBuf[1] = 0x98;
+                flagBuf[2] = 0x61;
+                flagBuf[3] = 0x30;
+                flagBuf[4] = 0x06;
+                flagBuf[5] = 0x10;
+            }
+            if((tmpbuf[0]==flagBuf[0])&&(tmpbuf[1]==flagBuf[1])&&(tmpbuf[2]==flagBuf[2])&&(tmpbuf[3]==flagBuf[3])&&(tmpbuf[4]==flagBuf[4])&&(bread==flagBuf[5]))
+            {
+                int C0 = tmpbuf[9];
+                C0<<= 8;
+                C0 += tmpbuf[10];
+
+                // 如果没有IP则赋值第一个
+                //qDebug() << m_ip << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`";
+                if ( m_ip.isEmpty() ) {
+                    m_ip = QString("%1.%2.%3.%4").arg(tmpbuf[5]).arg(tmpbuf[6]).arg(tmpbuf[7]).arg(tmpbuf[8]);
+                    m_port = C0;
+                    //qDebug() << m_ip << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`1111111111111";
+
+                    if (NULL != m_pDecodeThread1) {
+                        m_pDecodeThread1->SetConnectInfo(m_ip, m_port);
+                    }
+                    if (NULL != m_pDecodeThread2) {
+                        m_pDecodeThread2->SetConnectInfo(m_ip, m_port);
+                    }
+                    if (NULL != m_pDecodeThread3) {
+                        m_pDecodeThread3->SetConnectInfo(m_ip, m_port);
+                    }
+                    if (NULL != m_pDecodeThread4) {
+                        m_pDecodeThread4->SetConnectInfo(m_ip, m_port);
+                    }
+                }
+
+                //qDebug() << QString("%1.%2.%3.%4").arg(tmpbuf[5]).arg(tmpbuf[6]).arg(tmpbuf[7]).arg(tmpbuf[8]) << C0 << "~~~~~~~~~~recv";
+
+                // 只判断当前设备
+                if (m_ip == QString("%1.%2.%3.%4").arg(tmpbuf[5]).arg(tmpbuf[6]).arg(tmpbuf[7]).arg(tmpbuf[8])) {
+                    m_nHeartTimes--;
+                    m_nHeartTimes = qMax(m_nHeartTimes, 0);
+                    //qDebug() << "recv " << m_nHeartTimes;
+
+                    int nPlay = 0;
+                    if (NULL != m_pDecodeThread1) {
+                        if ( !m_pDecodeThread1->IsConnected() ) {
+                            m_pDecodeThread1->ConnectSocket();
+                        } else {
+                            nPlay++;
+                        }
+                    }
+                    if (NULL != m_pDecodeThread2) {
+                        if ( !m_pDecodeThread2->IsConnected() )
+                            m_pDecodeThread2->ConnectSocket();
+                        else {
+                            nPlay++;
+                        }
+                    }
+                    if (NULL != m_pDecodeThread3) {
+                        if ( !m_pDecodeThread3->IsConnected() )
+                            m_pDecodeThread3->ConnectSocket();
+                        else {
+                            nPlay++;
+                        }
+                    }
+                    if (NULL != m_pDecodeThread4) {
+                        if ( !m_pDecodeThread4->IsConnected() )
+                            m_pDecodeThread4->ConnectSocket();
+                        else {
+                            nPlay++;
+                        }
+                    }
+
+                    //qDebug() << nPlay << "~~~~~~~";
+                    // 如果全部连接上socket则打开回显
+                    if (4 == nPlay) {
+                        this->StartPlayerThread();
+                    }
+                }
+            }
+        }
+    }
+}
+
+void BCVedioManager::onAppendVedioFrame(int id, const QByteArray &pY, const QByteArray &pU, const QByteArray &pV,
+                        HI_U32 width, HI_U32 height, HI_U32 yStride, HI_U32 uvStride, const QByteArray &tmp_prew_pos_tab)
+{
+    m_mutexFrame.lock();
+
+    BCVedioFrame frame;
+    frame.pY.append( pY );
+    frame.pU.append( pU );
+    frame.pV.append( pV );
+    frame.width = width;
+    frame.height = height;
+    frame.yStride = yStride;
+    frame.uvStride = uvStride;
+    frame.tmp_prew_pos_tab.append( tmp_prew_pos_tab );
+
+    // 同时存放四个线程的帧数据
+    int nFrameMaxCount = 5;    // 防止数据量大出现拷贝错误
+    switch ( id ) {
+    case 0: {
+        if (m_lstFrameOfDecodeThread1.count() >= nFrameMaxCount)
+            m_lstFrameOfDecodeThread1.takeFirst();
+
+        m_lstFrameOfDecodeThread1.append( frame );
+    }
+        break;
+    case 1: {
+        if (m_lstFrameOfDecodeThread2.count() >= nFrameMaxCount)
+            m_lstFrameOfDecodeThread2.takeFirst();
+
+        m_lstFrameOfDecodeThread2.append( frame );
+    }
+        break;
+    case 2: {
+        if (m_lstFrameOfDecodeThread3.count() >= nFrameMaxCount)
+            m_lstFrameOfDecodeThread3.takeFirst();
+
+        m_lstFrameOfDecodeThread3.append( frame );
+    }
+        break;
+    default: {
+        if (m_lstFrameOfDecodeThread4.count() >= nFrameMaxCount)
+            m_lstFrameOfDecodeThread4.takeFirst();
+
+        m_lstFrameOfDecodeThread4.append( frame );
+    }
+        break;
+    }
+
+    m_mutexFrame.unlock();
+}
+
+void BCVedioManager::StartPlayerThread()
+{
+    // 线程只打开一次
+    if ( m_bStartThread )
+        return;
+
+    int nDelayTime = 100;
+    if (NULL != m_pDecodeThread1) {
+        QTimer::singleShot(nDelayTime*1, m_pDecodeThread1, SLOT(start()));
+    }
+    if (NULL != m_pDecodeThread2) {
+        QTimer::singleShot(nDelayTime*2, m_pDecodeThread2, SLOT(start()));
+    }
+    if (NULL != m_pDecodeThread3) {
+        QTimer::singleShot(nDelayTime*3, m_pDecodeThread3, SLOT(start()));
+    }
+    if (NULL != m_pDecodeThread4) {
+        QTimer::singleShot(nDelayTime*4, m_pDecodeThread4, SLOT(start()));
+    }
+    if (NULL == m_pPlayerThread) {
+        m_pPlayerThread = new BCVedioPlayerThread( this );
+        QTimer::singleShot(nDelayTime*5, m_pPlayerThread, SLOT(start()));
+    }
+
+    m_bStartThread = true;
+}
+
+void BCVedioManager::StopPlayerThread()
+{
+    qDebug() << "BCVedioManager::StopPlayerThread";
+
+    // 关掉信号槽
+    m_pOneSecondTimer->stop();
+    m_pOneSecondTimer->deleteLater();
+
+    //qDebug() << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~11";
+
+    if (NULL != m_pDecodeThread1) {
+        m_pDecodeThread1->ReadyQuit();
+    }
+    if (NULL != m_pDecodeThread2) {
+        m_pDecodeThread2->ReadyQuit();
+    }
+    if (NULL != m_pDecodeThread3) {
+        m_pDecodeThread3->ReadyQuit();
+    }
+    if (NULL != m_pDecodeThread4) {
+        m_pDecodeThread4->ReadyQuit();
+    }
+
+    //qDebug() << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~22";
+
+    QThread::msleep( 200 );
+
+    // 退出线程
+    if (NULL != m_pDecodeThread1) {
+        m_pDecodeThread1->Quit();
+    }
+    if (NULL != m_pDecodeThread2) {
+        m_pDecodeThread2->Quit();
+    }
+    if (NULL != m_pDecodeThread3) {
+        m_pDecodeThread3->Quit();
+    }
+    if (NULL != m_pDecodeThread4) {
+        m_pDecodeThread4->Quit();
+    }
+    if (NULL != m_pPlayerThread) {
+        m_pPlayerThread->Quit();
+    }
+
+    //qDebug() << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~33";
+}

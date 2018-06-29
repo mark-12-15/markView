@@ -1,0 +1,4 @@
+<DIV>
+    <INFO divIP="192.168.20.211" divUser="admin" divPort="8000" divName="摄像机1" divPasswd="1111aaaa"/>
+    <INFO divIP="192.168.20.211" divUser="admin" divPort="8000" divName="摄像机3" divPasswd="1111aaaa"/>
+</DIV>

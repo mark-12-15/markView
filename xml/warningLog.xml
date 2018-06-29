@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<BR>
+    <E1 time="12:00" event="转速低于100/分钟" user="Admin" grades="高级"/>
+    <E2 time="15:00" event="温度过高" user="User1" grades="中级"/>
+    <E3 time="08:00" event="转速高于300/分钟" user="Admin" grades="高级"/>
+    <E4 time="12:00" event="转速低于100/分钟" user="User2" grades="初级"/>
+    <E5 time="08:00" event="视频字幕声音不一致" user="User3" grades="初级"/>
+</BR>
