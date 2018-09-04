@@ -54,7 +54,7 @@ public:
     void retranslateUi(QWidget *BCSingleDisplayWidget)
     {
         BCSingleDisplayWidget->setWindowTitle(QApplication::translate("BCSingleDisplayWidget", "Form", Q_NULLPTR));
-        m_pNameLabel->setText(QApplication::translate("BCSingleDisplayWidget", "000", Q_NULLPTR));
+        m_pNameLabel->setText(QString());
     } // retranslateUi
 
 };

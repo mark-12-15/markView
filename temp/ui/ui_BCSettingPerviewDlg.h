@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QGridLayout>
@@ -52,7 +53,14 @@ public:
     QSpacerItem *horizontalSpacer_3;
     QGroupBox *groupBox_2;
     QVBoxLayout *verticalLayout;
-    QTreeWidget *treeWidget;
+    QCheckBox *m_pFilterDeviceCheckBox;
+    QLineEdit *m_pFilterDeviceLineEdit;
+    QCheckBox *m_pFilterPreviewCheckBox;
+    QLineEdit *m_pFilterPreviewLineEdit;
+    QLabel *label_2;
+    QTreeWidget *m_pGroupDisplayTreeWidget;
+    QLabel *label_3;
+    QTreeWidget *m_pMainToolBarTreeWidget;
     QHBoxLayout *horizontalLayout;
     QPushButton *m_pModifyPerviewBtn;
     QSpacerItem *horizontalSpacer;
@@ -62,7 +70,7 @@ public:
     {
         if (BCSettingPerviewDlg->objectName().isEmpty())
             BCSettingPerviewDlg->setObjectName(QStringLiteral("BCSettingPerviewDlg"));
-        BCSettingPerviewDlg->resize(646, 357);
+        BCSettingPerviewDlg->resize(620, 421);
         horizontalLayout_2 = new QHBoxLayout(BCSettingPerviewDlg);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         groupBox = new QGroupBox(BCSettingPerviewDlg);
@@ -153,13 +161,51 @@ public:
         groupBox_2->setFont(font);
         verticalLayout = new QVBoxLayout(groupBox_2);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        treeWidget = new QTreeWidget(groupBox_2);
+        m_pFilterDeviceCheckBox = new QCheckBox(groupBox_2);
+        m_pFilterDeviceCheckBox->setObjectName(QStringLiteral("m_pFilterDeviceCheckBox"));
+
+        verticalLayout->addWidget(m_pFilterDeviceCheckBox);
+
+        m_pFilterDeviceLineEdit = new QLineEdit(groupBox_2);
+        m_pFilterDeviceLineEdit->setObjectName(QStringLiteral("m_pFilterDeviceLineEdit"));
+
+        verticalLayout->addWidget(m_pFilterDeviceLineEdit);
+
+        m_pFilterPreviewCheckBox = new QCheckBox(groupBox_2);
+        m_pFilterPreviewCheckBox->setObjectName(QStringLiteral("m_pFilterPreviewCheckBox"));
+
+        verticalLayout->addWidget(m_pFilterPreviewCheckBox);
+
+        m_pFilterPreviewLineEdit = new QLineEdit(groupBox_2);
+        m_pFilterPreviewLineEdit->setObjectName(QStringLiteral("m_pFilterPreviewLineEdit"));
+
+        verticalLayout->addWidget(m_pFilterPreviewLineEdit);
+
+        label_2 = new QLabel(groupBox_2);
+        label_2->setObjectName(QStringLiteral("label_2"));
+
+        verticalLayout->addWidget(label_2);
+
+        m_pGroupDisplayTreeWidget = new QTreeWidget(groupBox_2);
         QTreeWidgetItem *__qtreewidgetitem = new QTreeWidgetItem();
         __qtreewidgetitem->setText(0, QStringLiteral("1"));
-        treeWidget->setHeaderItem(__qtreewidgetitem);
-        treeWidget->setObjectName(QStringLiteral("treeWidget"));
+        m_pGroupDisplayTreeWidget->setHeaderItem(__qtreewidgetitem);
+        m_pGroupDisplayTreeWidget->setObjectName(QStringLiteral("m_pGroupDisplayTreeWidget"));
 
-        verticalLayout->addWidget(treeWidget);
+        verticalLayout->addWidget(m_pGroupDisplayTreeWidget);
+
+        label_3 = new QLabel(groupBox_2);
+        label_3->setObjectName(QStringLiteral("label_3"));
+
+        verticalLayout->addWidget(label_3);
+
+        m_pMainToolBarTreeWidget = new QTreeWidget(groupBox_2);
+        QTreeWidgetItem *__qtreewidgetitem1 = new QTreeWidgetItem();
+        __qtreewidgetitem1->setText(0, QStringLiteral("1"));
+        m_pMainToolBarTreeWidget->setHeaderItem(__qtreewidgetitem1);
+        m_pMainToolBarTreeWidget->setObjectName(QStringLiteral("m_pMainToolBarTreeWidget"));
+
+        verticalLayout->addWidget(m_pMainToolBarTreeWidget);
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
@@ -207,6 +253,10 @@ public:
         removeBut->setText(QApplication::translate("BCSettingPerviewDlg", "\345\210\240\351\231\244\347\224\250\346\210\267", Q_NULLPTR));
         m_pModifyBtn->setText(QApplication::translate("BCSettingPerviewDlg", "\344\277\256\346\224\271\347\224\250\346\210\267", Q_NULLPTR));
         groupBox_2->setTitle(QApplication::translate("BCSettingPerviewDlg", "\346\235\203\351\231\220\347\256\241\347\220\206", Q_NULLPTR));
+        m_pFilterDeviceCheckBox->setText(QApplication::translate("BCSettingPerviewDlg", "\350\277\207\346\273\244\350\256\276\345\244\207\345\210\227\350\241\250", Q_NULLPTR));
+        m_pFilterPreviewCheckBox->setText(QApplication::translate("BCSettingPerviewDlg", "\350\277\207\346\273\244\351\242\204\347\233\221\345\233\236\346\230\276\345\210\227\350\241\250", Q_NULLPTR));
+        label_2->setText(QApplication::translate("BCSettingPerviewDlg", "\345\217\257\346\216\247\345\261\217\347\273\204\346\235\203\351\231\220", Q_NULLPTR));
+        label_3->setText(QApplication::translate("BCSettingPerviewDlg", "\344\270\273\345\267\245\345\205\267\346\235\241\345\212\237\350\203\275\346\235\203\351\231\220", Q_NULLPTR));
         m_pModifyPerviewBtn->setText(QApplication::translate("BCSettingPerviewDlg", "\344\277\256\346\224\271", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
         m_pResetDefaultMainToolBarBtn->setToolTip(QApplication::translate("BCSettingPerviewDlg", "\344\273\216\345\244\226\351\203\250\345\212\240\350\275\275\347\256\241\347\220\206\345\221\230\346\235\203\351\231\220\357\274\214\351\207\215\346\226\260\345\220\257\345\212\250\350\275\257\344\273\266\347\224\237\346\225\210", Q_NULLPTR));

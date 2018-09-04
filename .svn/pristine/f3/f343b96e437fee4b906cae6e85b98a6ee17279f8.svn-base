@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<BR>
+	<!-- µ­À¶É«Æ¤·ôxml -->
+	<WallViewBackground r="255" g="255" b="255" a="255"/>
+	<ToolBarBackground r="210" g="226" b="241" a="255"/>
+	<SingleDisplay lineR="0" lineG="0" lineB="0" lineA="255" lineWidth="1" lineStyle="1" fillR="210" fillG="226" fillB="241" fillA="255"/>
+	<VirtualRect lineR="123" lineG="0" lineB="0" lineA="125" lineWidth="1" lineStyle="4" fillR="0" fillG="191" fillB="255" fillA="0"/>
+	<VirtualSignalWindow lineR="0" lineG="0" lineB="0" lineA="255" lineWidth="1" lineStyle="3" />
+	<SignalWindow lineR="0" lineG="0" lineB="0" lineA="255" lineWidth="1" lineStyle="1" fillR="131" fillG="180" fillB="235" fillA="125"/>
+	<SignalWindowTitle fillR="250" fillG="141" fillB="69" fillA="255"/>
+	<SignalWindowBody lineR="24" lineG="62" lineB="240" lineA="125" fillR="131" fillG="180" fillB="235" fillA="125"/>
+</BR>
+	

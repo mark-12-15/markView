@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<BR>
+    <data0 InputChannelName="" RelevanceDevice="" InputChannel="0" InputPort=""/>
+    <data1 InputChannelName="" RelevanceDevice="" InputChannel="1" InputPort=""/>
+    <data2 InputChannelName="" RelevanceDevice="" InputChannel="2" InputPort=""/>
+    <data3 InputChannelName="" RelevanceDevice="" InputChannel="3" InputPort=""/>
+    <data4 InputChannelName="" RelevanceDevice="" InputChannel="4" InputPort=""/>
+    <data5 InputChannelName="" RelevanceDevice="" InputChannel="5" InputPort=""/>
+    <header MainRelevanceDevice="关联设备" MainInputChannel="输入通道" MainInputPort="关联端口" MainInputChannelName="输入通道名称"/>
+</BR>

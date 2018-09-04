@@ -1,6 +1,6 @@
 <BR>
-    <Resolution preH="4" preW="88" polarityH="1" liveW="3840" totalW="2200" syncH="5" totalH="1125" syncW="44" polarityW="1" liveH="2160" hertz="60"/>
-    <Resolution preH="4" preW="88" polarityH="1" liveW="1914" totalW="2206" syncH="5" totalH="1125" syncW="44" polarityW="1" liveH="1088" hertz="60"/>
-    <Resolution preH="4" preW="88" polarityH="1" liveW="1920" totalW="2200" syncH="5" totalH="1125" syncW="44" polarityW="1" liveH="1080" hertz="60"/>
-    <Resolution preH="4" preW="88" polarityH="1" liveW="1920" totalW="2200" syncH="5" totalH="1125" syncW="44" polarityW="1" liveH="1080" hertz="60"/>
+    <Resolution liveH="2160" liveW="3840" syncH="5" preH="4" totalW="2200" polarityW="1" hertz="60" preW="88" polarityH="1" totalH="1125" syncW="44"/>
+    <Resolution liveH="1088" liveW="1914" syncH="5" preH="4" totalW="2206" polarityW="1" hertz="60" preW="88" polarityH="1" totalH="1125" syncW="44"/>
+    <Resolution liveH="1080" liveW="1920" syncH="5" preH="4" totalW="2200" polarityW="1" hertz="60" preW="88" polarityH="1" totalH="1125" syncW="44"/>
+    <Resolution liveH="1080" liveW="1920" syncH="5" preH="4" totalW="2200" polarityW="1" hertz="60" preW="88" polarityH="1" totalH="1125" syncW="44"/>
 </BR>

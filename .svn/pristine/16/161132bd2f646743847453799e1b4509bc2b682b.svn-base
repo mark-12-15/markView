@@ -1,0 +1,9 @@
+<BR>
+    <Node ControlIP="192.168.1.24" PreviewIP="192.168.1.102"/>
+    <Node ControlIP="192.168.1.16" PreviewIP=""/>
+    <Node ControlIP="192.168.1.4" PreviewIP="192.168.1.101"/>
+    <Node ControlIP="192.168.1.48" PreviewIP=""/>
+    <Node ControlIP="192.168.1.6" PreviewIP=""/>
+    <Node ControlIP="192.168.1.5" PreviewIP=""/>
+    <Node ControlIP="192.168.3.9" PreviewIP="192.168.1.110"/>
+</BR>

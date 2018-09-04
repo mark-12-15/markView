@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<monitorConfig>
+    <left>
+        <enable>1</enable>
+        <countH>8</countH>
+        <countV>7</countV>
+        <isSupportControl>0</isSupportControl>
+    </left>
+    <right>
+        <enable>0</enable>
+        <countH>6</countH>
+        <countV>5</countV>
+        <isSupportControl>0</isSupportControl>
+    </right>
+    <top>
+        <enable>0</enable>
+        <countH>4</countH>
+        <countV>0</countV>
+        <isSupportControl>1</isSupportControl>
+    </top>
+    <bottom>
+        <enable>0</enable>
+        <countH>2</countH>
+        <countV>7</countV>
+        <isSupportControl>0</isSupportControl>
+    </bottom>
+    <customEnable>1</customEnable>
+    <customCount>3</customCount>
+</monitorConfig>

@@ -1,0 +1,28 @@
+<BR>
+    <ROOM deviceip="设备IP" roomid="组ID">
+        <WINDOW loopip="轮巡使用的IP列表" ip="36个IP列表，分号分割" height="" left="" segmentation="实际分割数" width="" chid="通道ID" top="" winid="窗口ID"/>
+    </ROOM>
+    <ROOM deviceip="192.168.1.4" roomid="3">
+        <WINDOW loopip="" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="1080" left="5760" segmentation="-1" width="1920" chid="0" top="0" winid="4" interval="3"/>
+    </ROOM>
+    <ROOM deviceip="192.168.1.4" roomid="1">
+        <WINDOW loopip="" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="900" left="0" segmentation="-1" width="1440" chid="0" top="1800" winid="3" interval="3"/>
+        <WINDOW loopip="" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="900" left="0" segmentation="-1" width="1440" chid="0" top="0" winid="1" interval="3"/>
+        <WINDOW loopip="" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="900" left="0" segmentation="-1" width="1440" chid="0" top="900" winid="2" interval="3"/>
+    </ROOM>
+    <ROOM deviceip="192.168.1.4" roomid="2">
+        <WINDOW loopip="" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="483" left="1920" segmentation="-1" width="1920" chid="1" top="597" winid="2" interval="3"/>
+        <WINDOW loopip="" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="451" left="60" segmentation="-1" width="1476" chid="3" top="75" winid="3" interval="3"/>
+    </ROOM>
+    <ROOM deviceip="192.168.1.4" roomid="3">
+        <WINDOW loopip="" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="1080" left="5760" segmentation="-1" width="1920" chid="0" top="0" winid="4" interval="3"/>
+    </ROOM>
+    <ROOM deviceip="192.168.1.4" roomid="4">
+        <WINDOW loopip="" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="1080" left="0" segmentation="-1" width="1920" chid="0" top="0" winid="0" interval="3"/>
+        <WINDOW loopip="" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="1080" left="1920" segmentation="-1" width="1920" chid="1" top="0" winid="1" interval="3"/>
+        <WINDOW loopip="" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="1080" left="0" segmentation="-1" width="1920" chid="2" top="1080" winid="2" interval="3"/>
+        <WINDOW loopip="" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="1080" left="1920" segmentation="-1" width="1920" chid="3" top="2160" winid="3" interval="3"/>
+        <WINDOW loopip="" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="1080" left="1920" segmentation="-1" width="1920" chid="0" top="1080" winid="4" interval="3"/>
+        <WINDOW loopip="" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="1080" left="0" segmentation="-1" width="1920" chid="0" top="2160" winid="5" interval="3"/>
+    </ROOM>
+</BR>

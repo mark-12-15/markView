@@ -14,10 +14,8 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDialog>
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -32,17 +30,12 @@ public:
     QVBoxLayout *verticalLayout_2;
     QSpacerItem *verticalSpacer;
     QLabel *m_pVersionLabel;
-    QLabel *m_pWebLabel;
-    QWidget *widget;
-    QHBoxLayout *horizontalLayout;
-    QSpacerItem *horizontalSpacer;
-    QPushButton *pushButton;
 
     void setupUi(QDialog *BCAbout)
     {
         if (BCAbout->objectName().isEmpty())
             BCAbout->setObjectName(QStringLiteral("BCAbout"));
-        BCAbout->resize(320, 136);
+        BCAbout->resize(320, 100);
         BCAbout->setMinimumSize(QSize(0, 0));
         verticalLayout = new QVBoxLayout(BCAbout);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
@@ -66,35 +59,8 @@ public:
 
         verticalLayout_2->addWidget(m_pVersionLabel);
 
-        m_pWebLabel = new QLabel(widget_2);
-        m_pWebLabel->setObjectName(QStringLiteral("m_pWebLabel"));
-        m_pWebLabel->setFont(font);
-
-        verticalLayout_2->addWidget(m_pWebLabel);
-
 
         verticalLayout->addWidget(widget_2);
-
-        widget = new QWidget(BCAbout);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setMaximumSize(QSize(16777215, 24));
-        horizontalLayout = new QHBoxLayout(widget);
-        horizontalLayout->setSpacing(0);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        horizontalSpacer = new QSpacerItem(493, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout->addItem(horizontalSpacer);
-
-        pushButton = new QPushButton(widget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setMaximumSize(QSize(60, 16777215));
-        pushButton->setFont(font);
-
-        horizontalLayout->addWidget(pushButton);
-
-
-        verticalLayout->addWidget(widget);
 
 
         retranslateUi(BCAbout);
@@ -106,8 +72,6 @@ public:
     {
         BCAbout->setWindowTitle(QApplication::translate("BCAbout", "Dialog", Q_NULLPTR));
         m_pVersionLabel->setText(QApplication::translate("BCAbout", "Ver:3.11.48", Q_NULLPTR));
-        m_pWebLabel->setText(QApplication::translate("BCAbout", "Web:www.brillview.com", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("BCAbout", "\345\205\263\351\227\255", Q_NULLPTR));
     } // retranslateUi
 
 };

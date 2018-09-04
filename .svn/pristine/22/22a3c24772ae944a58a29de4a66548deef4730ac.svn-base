@@ -1,0 +1,31 @@
+聂各庄			
+	东路			
+	西路			
+	南路			
+		聂各庄南路1	rtsp://nanlu1..	H264	1920*1080
+		聂各庄南路2	rtsp://nanlu2..	H264	1920*1080
+		聂各庄南路3	rtsp://nanlu3..	H264	1920*1080
+		聂各庄南路4	rtsp://nanlu4..	H264	1920*1080
+		聂各庄南路5	rtsp://nanlu5..	H264	1920*1080
+	北路			
+		聂各庄北路1	rtsp://beilu1..	H264	1920*1080
+		聂各庄北路2	rtsp://beilu2..	H264	1920*1080
+		聂各庄北路3	rtsp://beilu3..	H264	1920*1080
+		聂各庄北路4	rtsp://beilu4..	H264	1920*1080
+		聂各庄北路5	rtsp://beilu5..	H264	1920*1080
+		北路路口			
+			聂各庄北路路口1	rtsp://beilulukou1..	H264	1920*1080
+			聂各庄北路路口2	rtsp://beilulukou2..	H264	1920*1080
+			聂各庄北路路口3	rtsp://beilulukou3..	H264	1920*1080
+大红门			
+	大红门1	rtsp://dahongmen1..	H264	1920*1080
+	大红门2	rtsp://dahongmen2..	H264	1920*1080
+	大红门3	rtsp://dahongmen3..	H264	1920*1080
+	大红门4	rtsp://dahongmen4..	H264	1920*1080
+	大红门5	rtsp://dahongmen5..	H264	1920*1080
+	大红门6	rtsp://dahongmen6..	H264	1920*1080
+成寿寺	rtsp://root1..	H264	1920*1080
+宋家庄	rtsp://root2..	H264	1920*1080
+西红门	rtsp://root3..	H264	1920*1080
+角门西	rtsp://root4..	H264	1920*1080
+角门东	rtsp://root5..	H264	1920*1080

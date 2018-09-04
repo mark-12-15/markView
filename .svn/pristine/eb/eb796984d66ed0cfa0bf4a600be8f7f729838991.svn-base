@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XML中冲突符号转义：小于号(<) &lt;  大于号(>) &gt;  双引号(") &quot;  单引号(') &apos;  逻辑与号(&) &amp; -->
+<!-- 1.转义字符间不能有空格  2.转义符以&开头 以;结束  3.区分大小写  4.指令集遇到以上字符，必须用对应的转义符 -->
+<SystemData>
+	<!-- 为每个权限级别配置权限，权限暂时包括主工具条对象的可见性、房间和房间内屏组的可见性，多个ID以分号分隔 -->
+	<SystemPurview>
+		<Purview>
+			<MainToolBar>
+				<Tab Type="3">
+					<Group Type="7">
+						<Button Type="101;100;143;148;144"/>
+					</Group>
+					<Group Type="1">
+						<Button Type="103;104;105;106;102"/>
+					</Group>
+					<Group Type="10">
+						<Button Type="169;170"/>
+					</Group>
+					<Group Type="5">
+						<Button Type="111;167;107;108;110"/>
+					</Group>
+				</Tab>
+				<Tab Type="4">
+					<Group Type="9">
+						<Button Type="112;153;171;119;168;173;174;175;176"/>
+					</Group>
+				</Tab>
+				<Tab Type="5">
+					<Group Type="9">
+						<Button Type="172;128;131;139;126;127;129;130"/>
+					</Group>
+				</Tab>
+			</MainToolBar>
+		</Purview>
+	</SystemPurview>
+</SystemData>

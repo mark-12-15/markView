@@ -1,8 +1,31 @@
 <BR>
-    <ROOM roomid="组ID" deviceip="设备IP">
-        <WINDOW segmentation="实际分割数" chid="通道ID" left="" loopip="轮巡使用的IP列表" width="" top="" ip="36个IP列表，分号分割" winid="窗口ID" height=""/>
+    <ROOM deviceip="设备IP" roomid="组ID">
+        <WINDOW winid="窗口ID" width="" ip="36个IP列表，分号分割" height="" loopip="轮巡使用的IP列表" segmentation="实际分割数" chid="通道ID" left="" top=""/>
     </ROOM>
-    <ROOM roomid="0" deviceip="192.168.1.6">
-        <WINDOW segmentation="1" chid="9" left="0" loopip="" width="1920" top="0" ip="rtsp://beilu1..;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" interval="3" winid="0" height="1080"/>
+    <ROOM deviceip="192.168.3.9" roomid="0">
+        <WINDOW winid="0" width="1920" ip="rtsp://admin:12345@192.168.1.45:554/avstream;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="1080" interval="3" loopip="" segmentation="12" chid="8" left="3840" top="0"/>
+        <WINDOW winid="1" width="1920" ip="rtsp://admin:12345@192.168.1.45:554/avstream;rtsp://admin:12345@192.168.1.37:554/avstream;rtsp://admin:12345@192.168.1.44:554/avstream;rtsp://admin:12345@192.168.1.44:554/avstream;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="1080" interval="3" loopip="" segmentation="4" chid="8" left="1920" top="0"/>
+    </ROOM>
+    <ROOM deviceip="192.168.1.4" roomid="4">
+        <WINDOW winid="0" width="1920" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="1080" interval="3" loopip="" segmentation="-1" chid="1" left="0" top="0"/>
+    </ROOM>
+    <ROOM deviceip="192.168.1.6" roomid="2">
+        <WINDOW winid="0" width="1920" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="1080" interval="3" loopip="" segmentation="1" chid="16" left="0" top="0"/>
+    </ROOM>
+    <ROOM deviceip="192.168.1.6" roomid="1">
+        <WINDOW winid="1" width="1920" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="1080" interval="3" loopip="" segmentation="1" chid="15" left="1920" top="1080"/>
+        <WINDOW winid="2" width="3840" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="1620" interval="3" loopip="" segmentation="1" chid="15" left="3840" top="0"/>
+    </ROOM>
+    <ROOM deviceip="192.168.1.6" roomid="2">
+        <WINDOW winid="0" width="1920" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="1080" interval="3" loopip="" segmentation="0" chid="15" left="0" top="0"/>
+    </ROOM>
+    <ROOM deviceip="192.168.1.6" roomid="5">
+        <WINDOW winid="0" width="1920" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="1080" interval="3" loopip="" segmentation="6" chid="14" left="0" top="0"/>
+    </ROOM>
+    <ROOM deviceip="192.168.1.4" roomid="3">
+        <WINDOW winid="1" width="1920" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="1080" interval="3" loopip="" segmentation="-1" chid="1" left="1920" top="0"/>
+    </ROOM>
+    <ROOM deviceip="192.168.1.4" roomid="1">
+        <WINDOW winid="1" width="7680" ip=";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" height="3240" loopip="" interval="3" segmentation="1" chid="0" left="0" top="0"/>
     </ROOM>
 </BR>

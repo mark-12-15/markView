@@ -82,7 +82,6 @@ INPUT(
 ./..\temp\obj\BCMatrixRoomWidget.o
 ./..\temp\obj\BCMatrixInputNodeWidget.o
 ./..\temp\obj\BCMatrixOutputNodeWidget.o
-./..\temp\obj\BCSettingMatrixConfigDlg.o
 ./..\temp\obj\BCSettingTaskPlanningDlg.o
 ./..\temp\obj\BCSettingTaskDetailDlg.o
 ./..\temp\obj\BCSignalWindowDisplayWidget.o
@@ -186,7 +185,6 @@ INPUT(
 ./..\temp\obj\moc_BCMatrixRoomWidget.o
 ./..\temp\obj\moc_BCMatrixInputNodeWidget.o
 ./..\temp\obj\moc_BCMatrixOutputNodeWidget.o
-./..\temp\obj\moc_BCSettingMatrixConfigDlg.o
 ./..\temp\obj\moc_BCSettingTaskPlanningDlg.o
 ./..\temp\obj\moc_BCSettingTaskDetailDlg.o
 ./..\temp\obj\moc_BCSignalWindowDisplayWidget.o

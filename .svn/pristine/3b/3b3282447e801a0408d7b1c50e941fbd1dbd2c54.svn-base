@@ -1,0 +1,5 @@
+<BR IsConnectServer="0" ServerMode="1" Port="18000" IP="192.168.1.110">
+    <User pwd="" usr="admin"/>
+    <User pwd="" usr="User"/>
+    <User pwd="" usr="Operator"/>
+</BR>

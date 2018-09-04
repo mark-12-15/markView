@@ -84,6 +84,7 @@ public:
 
         m_pPreWSpinBox = new QSpinBox(groupBox);
         m_pPreWSpinBox->setObjectName(QStringLiteral("m_pPreWSpinBox"));
+        m_pPreWSpinBox->setMaximum(999);
 
         gridLayout->addWidget(m_pPreWSpinBox, 3, 0, 1, 1);
 
@@ -94,6 +95,7 @@ public:
 
         m_pSyncWSpinBox = new QSpinBox(groupBox);
         m_pSyncWSpinBox->setObjectName(QStringLiteral("m_pSyncWSpinBox"));
+        m_pSyncWSpinBox->setMaximum(999);
 
         gridLayout->addWidget(m_pSyncWSpinBox, 5, 0, 1, 1);
 
@@ -126,6 +128,7 @@ public:
 
         m_pPreHSpinBox = new QSpinBox(groupBox);
         m_pPreHSpinBox->setObjectName(QStringLiteral("m_pPreHSpinBox"));
+        m_pPreHSpinBox->setMaximum(999);
 
         gridLayout->addWidget(m_pPreHSpinBox, 3, 1, 1, 1);
 
@@ -163,6 +166,7 @@ public:
 
         m_pSyncHSpinBox = new QSpinBox(groupBox);
         m_pSyncHSpinBox->setObjectName(QStringLiteral("m_pSyncHSpinBox"));
+        m_pSyncHSpinBox->setMaximum(999);
 
         gridLayout->addWidget(m_pSyncHSpinBox, 5, 1, 1, 1);
 
